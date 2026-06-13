@@ -1,0 +1,199 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── ENUMS ───────────────────────────────────────────────────────────────────
+
+enum Plan {
+  FREE
+  PREMIUM
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  TRIALING
+  INACTIVE
+}
+
+enum TemplateStyle {
+  MODERN
+  CLASSIC
+  PREMIUM
+  MINIMALIST
+  CORPORATE
+}
+
+enum ExportFormat {
+  PDF
+  DOCX
+}
+
+// ─── USER ────────────────────────────────────────────────────────────────────
+
+model User {
+  id                String             @id @default(cuid())
+  name              String?
+  email             String             @unique
+  emailVerified     DateTime?
+  image             String?
+  password          String?
+  plan              Plan               @default(FREE)
+  cvCount           Int                @default(0)
+  letterCount       Int                @default(0)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  accounts          Account[]
+  sessions          Session[]
+  resumes           Resume[]
+  coverLetters      CoverLetter[]
+  subscription      Subscription?
+  exports           Export[]
+  passwordResets    PasswordReset[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String   @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?  @db.Text
+  access_token      String?  @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?  @db.Text
+  session_state     String?
+
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model PasswordReset {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expires   DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("password_resets")
+}
+
+// ─── RESUME ──────────────────────────────────────────────────────────────────
+
+model Resume {
+  id            String        @id @default(cuid())
+  userId        String
+  title         String
+  template      TemplateStyle @default(MODERN)
+  isPublic      Boolean       @default(false)
+  targetJob     String?
+  targetCompany String?
+  targetSector  String?
+  content       Json          // Full resume data
+  aiEnhanced    Boolean       @default(false)
+  atsScore      Int?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  coverLetters  CoverLetter[]
+  exports       Export[]
+
+  @@map("resumes")
+}
+
+model CoverLetter {
+  id            String   @id @default(cuid())
+  userId        String
+  resumeId      String?
+  title         String
+  targetJob     String
+  targetCompany String
+  targetSector  String
+  content       String   @db.Text
+  aiGenerated   Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resume        Resume?  @relation(fields: [resumeId], references: [id], onDelete: SetNull)
+  exports       Export[]
+
+  @@map("cover_letters")
+}
+
+// ─── EXPORT ──────────────────────────────────────────────────────────────────
+
+model Export {
+  id             String       @id @default(cuid())
+  userId         String
+  resumeId       String?
+  coverLetterId  String?
+  format         ExportFormat
+  fileUrl        String?
+  fileSize       Int?
+  createdAt      DateTime     @default(now())
+
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resume         Resume?      @relation(fields: [resumeId], references: [id], onDelete: SetNull)
+  coverLetter    CoverLetter? @relation(fields: [coverLetterId], references: [id], onDelete: SetNull)
+
+  @@map("exports")
+}
+
+// ─── SUBSCRIPTION ─────────────────────────────────────────────────────────────
+
+model Subscription {
+  id                   String             @id @default(cuid())
+  userId               String             @unique
+  stripeCustomerId     String?            @unique
+  stripeSubscriptionId String?            @unique
+  stripePriceId        String?
+  stripeCurrentPeriodEnd DateTime?
+  status               SubscriptionStatus @default(INACTIVE)
+  plan                 Plan               @default(FREE)
+  cancelAtPeriodEnd    Boolean            @default(false)
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  user                 User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}
