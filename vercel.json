@@ -1,23 +1,4 @@
 {
   "framework": "nextjs",
-  "buildCommand": "prisma generate && next build",
-  "devCommand":   "next dev",
-  "installCommand": "npm install",
-  "regions": ["cdg1"],
-  "env": {
-    "DATABASE_URL":                      "@database_url",
-    "AUTH_SECRET":                       "@auth_secret",
-    "GOOGLE_CLIENT_ID":                  "@google_client_id",
-    "GOOGLE_CLIENT_SECRET":              "@google_client_secret",
-    "ANTHROPIC_API_KEY":                 "@anthropic_api_key",
-    "STRIPE_SECRET_KEY":                 "@stripe_secret_key",
-    "STRIPE_WEBHOOK_SECRET":             "@stripe_webhook_secret",
-    "STRIPE_PREMIUM_PRICE_ID":           "@stripe_premium_price_id",
-    "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY":"@stripe_publishable_key",
-    "EMAIL_SERVER_HOST":                 "@email_server_host",
-    "EMAIL_SERVER_PORT":                 "@email_server_port",
-    "EMAIL_SERVER_USER":                 "@email_server_user",
-    "EMAIL_SERVER_PASSWORD":             "@email_server_password",
-    "EMAIL_FROM":                        "@email_from"
-  }
+  "buildCommand": "prisma generate && next build"
 }
