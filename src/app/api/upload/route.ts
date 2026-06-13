@@ -4,10 +4,6 @@ import { auth } from '@/lib/auth';
 import { parseCVFromText } from '@/lib/ai';
 import pdfParse from 'pdf-parse';
 
-export const config = {
-  api: { bodyParser: false },
-};
-
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session?.user) {
@@ -22,12 +18,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Fichier manquant' }, { status: 400 });
     }
 
-    // Only allow PDF
     if (file.type !== 'application/pdf') {
       return NextResponse.json({ error: 'Seuls les fichiers PDF sont acceptés' }, { status: 400 });
     }
 
-    // Max 5 MB
     if (file.size > 5 * 1024 * 1024) {
       return NextResponse.json({ error: 'Fichier trop volumineux (max 5 MB)' }, { status: 400 });
     }
@@ -35,9 +29,8 @@ export async function POST(req: NextRequest) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer      = Buffer.from(arrayBuffer);
 
-    // Extract text from PDF
-    const parsed   = await pdfParse(buffer);
-    const text     = parsed.text;
+    const parsed = await pdfParse(buffer);
+    const text   = parsed.text;
 
     if (!text || text.trim().length < 50) {
       return NextResponse.json(
@@ -46,7 +39,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Use AI to parse the text into structured data
     const cvData = await parseCVFromText(text);
 
     return NextResponse.json({ success: true, data: cvData });
