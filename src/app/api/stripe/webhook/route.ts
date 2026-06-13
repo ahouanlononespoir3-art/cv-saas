@@ -4,8 +4,6 @@ import { stripe } from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
 import type Stripe from 'stripe';
 
-export const config = { api: { bodyParser: false } };
-
 async function handleSubscriptionChange(subscription: Stripe.Subscription) {
   const userId = subscription.metadata.userId;
   if (!userId) {
@@ -50,7 +48,6 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   const userId = session.metadata?.userId;
   if (!userId) return;
 
-  // Update stripeCustomerId if needed
   if (session.customer) {
     await prisma.subscription.upsert({
       where:  { userId },
