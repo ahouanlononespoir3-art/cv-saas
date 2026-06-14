@@ -23,12 +23,12 @@ export async function POST(req: NextRequest) {
       data: { userId: session.user.id, resumeId, format: 'PDF' },
     });
 
-    const buffer = await renderToBuffer(
-      React.createElement(PDFDocument, {
-        content:  resume.content as any,
-        template: resume.template,
-      }),
-    );
+   const buffer = await renderToBuffer(
+  React.createElement(PDFDocument, {
+    content:  resume.content as any,
+    template: resume.template,
+  } as any),
+);
 
     return new NextResponse(buffer, {
       status:  200,
