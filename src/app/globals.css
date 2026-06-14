@@ -16,8 +16,8 @@
     --radius: 0.5rem;
 
     --gradient-start: #6366f1;
-    --gradient-mid:   #8b5cf6;
-    --gradient-end:   #ec4899;
+    --gradient-mid: #8b5cf6;
+    --gradient-end: #ec4899;
   }
 
   * {
@@ -27,7 +27,7 @@
 
   html {
     scroll-behavior: smooth;
-    -webkit-font-smoothing:  antialiased;
+    -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
@@ -37,45 +37,30 @@
 }
 
 @layer components {
-  /* ── Buttons ─────────────────────────────────────────────────────── */
+  /* Buttons */
   .btn-primary {
-    @apply inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-2.5
-           text-sm font-semibold text-white shadow-sm
-           hover:bg-brand-700 active:scale-[0.98]
-           transition-all duration-150 cursor-pointer;
+    @apply inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-700 active:scale-95 transition-all duration-150 cursor-pointer;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center gap-2 rounded-xl border border-surface-200
-           bg-white px-5 py-2.5 text-sm font-semibold text-surface-900 shadow-sm
-           hover:bg-surface-50 active:scale-[0.98]
-           transition-all duration-150 cursor-pointer;
+    @apply inline-flex items-center gap-2 rounded-xl border border-surface-200 bg-white px-5 py-2.5 text-sm font-semibold text-surface-900 shadow-sm hover:bg-surface-50 active:scale-95 transition-all duration-150 cursor-pointer;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center gap-2 rounded-xl px-5 py-2.5
-           text-sm font-semibold text-surface-600
-           hover:bg-surface-100 active:scale-[0.98]
-           transition-all duration-150 cursor-pointer;
+    @apply inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-surface-600 hover:bg-surface-100 active:scale-95 transition-all duration-150 cursor-pointer;
   }
 
   .btn-danger {
-    @apply inline-flex items-center gap-2 rounded-xl bg-red-600 px-5 py-2.5
-           text-sm font-semibold text-white shadow-sm
-           hover:bg-red-700 active:scale-[0.98]
-           transition-all duration-150 cursor-pointer;
+    @apply inline-flex items-center gap-2 rounded-xl bg-red-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-700 active:scale-95 transition-all duration-150 cursor-pointer;
   }
 
   .btn-lg {
     @apply px-7 py-3.5 text-base rounded-2xl;
   }
 
-  /* ── Form Inputs ─────────────────────────────────────────────────── */
+  /* Form Inputs */
   .input {
-    @apply w-full rounded-xl border border-surface-200 bg-white px-4 py-2.5
-           text-sm text-surface-900 placeholder:text-surface-400
-           focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20
-           transition-all duration-150;
+    @apply w-full rounded-xl border border-surface-200 bg-white px-4 py-2.5 text-sm text-surface-900 placeholder:text-surface-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 transition-all duration-150;
   }
 
   .input-error {
@@ -90,48 +75,46 @@
     @apply text-xs text-red-500 mt-1;
   }
 
-  /* ── Cards ───────────────────────────────────────────────────────── */
+  /* Cards */
   .card {
     @apply rounded-2xl border border-surface-100 bg-white shadow-card;
   }
 
   .card-hover {
-    @apply rounded-2xl border border-surface-100 bg-white shadow-card
-           hover:shadow-card-hover hover:-translate-y-0.5
-           transition-all duration-200 cursor-pointer;
+    @apply rounded-2xl border border-surface-100 bg-white shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 cursor-pointer;
   }
 
-  /* ── Badges ──────────────────────────────────────────────────────── */
+  /* Badges */
   .badge {
     @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
   }
 
   .badge-brand {
-    @apply badge bg-brand-100 text-brand-700;
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium bg-brand-100 text-brand-700;
   }
 
   .badge-success {
-    @apply badge bg-green-100 text-green-700;
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-700;
   }
 
   .badge-warning {
-    @apply badge bg-amber-100 text-amber-700;
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium bg-amber-100 text-amber-700;
   }
 
   .badge-danger {
-    @apply badge bg-red-100 text-red-700;
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium bg-red-100 text-red-700;
   }
 
   .badge-premium {
-    @apply badge bg-gradient-to-r from-amber-400 to-orange-400 text-white;
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium bg-gradient-to-r from-amber-400 to-orange-400 text-white;
   }
 
-  /* ── Gradient text ───────────────────────────────────────────────── */
+  /* Gradient text */
   .text-gradient {
     @apply bg-gradient-to-r from-brand-600 via-purple-600 to-pink-500 bg-clip-text text-transparent;
   }
 
-  /* ── Section headings ────────────────────────────────────────────── */
+  /* Section headings */
   .section-title {
     @apply text-3xl font-bold text-surface-900 tracking-tight;
   }
@@ -140,23 +123,32 @@
     @apply text-lg text-surface-500 mt-3 leading-relaxed;
   }
 
-  /* ── Loading skeleton ────────────────────────────────────────────── */
+  /* Loading skeleton */
   .skeleton {
     @apply animate-pulse rounded-lg bg-surface-100;
   }
 
-  /* ── Divider ─────────────────────────────────────────────────────── */
+  /* Divider */
   .divider {
     @apply my-6 border-t border-surface-100;
   }
 }
 
 @layer utilities {
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 
-  .text-balance { text-wrap: balance; }
-  .text-pretty  { text-wrap: pretty; }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
 
   /* Glassmorphism */
   .glass {
