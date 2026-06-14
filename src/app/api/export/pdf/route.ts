@@ -24,10 +24,10 @@ export async function POST(req: NextRequest) {
     });
 
    const buffer = await renderToBuffer(
-  React.createElement(PDFDocument, {
-    content:  resume.content as any,
+  React.createElement(PDFDocument as any, {
+    content: resume.content as any,
     template: resume.template,
-  } as any),
+  }),
 );
 
     return new NextResponse(buffer, {
