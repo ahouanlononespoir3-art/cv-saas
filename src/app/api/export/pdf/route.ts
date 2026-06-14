@@ -23,8 +23,8 @@ export async function POST(req: NextRequest) {
       data: { userId: session.user.id, resumeId, format: 'PDF' },
     });
 
-   const buffer = await renderToBuffer(
-  React.createElement(PDFDocument as any, {
+const buffer = await (renderToBuffer as any)(
+  React.createElement(PDFDocument, {
     content: resume.content as any,
     template: resume.template,
   }),
