@@ -14,7 +14,7 @@ export function generateId(): string {
 export function formatDate(date: string | Date): string {
  return d.toLocaleDateString('fr-FR', {
   year:  'numeric',
-  month: 'long',
+  month: 'numeric',
   day:   'numeric',
 });
 }
